@@ -16,4 +16,9 @@ public interface UserService {
     boolean checkPassword(String username, String password);
 
     void emailConfirmation (String email) throws MessagingException, MessagingException, IOException, GeneralSecurityException;
+
+    //void createSurvey(int userId);
+
+    String getStatusOfSurvey(int surveyId);
+
 }

@@ -2,7 +2,9 @@ package com.surveygen.service;
 
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import com.surveygen.Repository.SurveyRepository;
 import com.surveygen.Repository.UserRepository;
+import com.surveygen.model.Survey;
 import com.surveygen.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private GmailService gmailService;
+    @Autowired
+    private SurveyRepository surveyRepository;
 
     @Override
     public User findById(int id){
@@ -56,16 +60,30 @@ public class UserServiceImpl implements UserService {
     public void emailConfirmation(String email) throws MessagingException, MessagingException, IOException, GeneralSecurityException {
         String confirmationBody = new String("This is a test email.");
         // body needs to be inserted
-        System.out.println("2222222");
+
         MimeMessage mimeMessage =  gmailService.createEmail(email, "onlinesurveygen@gmail.com", "Confirmation link", confirmationBody);
 
         //Message message = gmailService.createMessageWithEmail(mimeMessage);
-        System.out.println("33333333");
+
         Gmail gmail = gmailService.instantiateGmailService();
-        System.out.println("666666666");
         gmailService.sendMessage(gmail, "onlinesurveygen@gmail.com", mimeMessage);
 
     }
 
+//    @Override
+//    public void createSurvey(int userId){
+//        surveyRepository.save(survey);
+//    }
+
+    @Override
+    public String getStatusOfSurvey(int surveyId){
+        Survey survey = surveyRepository.findById(surveyId);
+
+        int requested = survey.getRequested();
+        int responses = survey.getResponded();
+
+        String status = responses + "out of " + requested + "have submitted their response.";
+        return status;
+    }
 
 }

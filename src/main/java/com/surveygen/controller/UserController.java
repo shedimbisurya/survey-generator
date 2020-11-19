@@ -84,5 +84,12 @@ public class UserController {
         return "checkYourEmail";
     }
 
+//    @PostMapping("/createSurvey")
+//    public String createSurvey(@RequestParam("id") int id){
+//
+//        userService.createSurvey(id);
+//
+//    }
+
 
 }
