@@ -61,11 +61,11 @@ public class GmailService {
 
     public Gmail instantiateGmailService() throws IOException, GeneralSecurityException {
 
-        System.out.println("44444444");
+        //System.out.println("44444444");
 
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
-        System.out.println("555555555");
+        //System.out.println("555555555");
         Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();

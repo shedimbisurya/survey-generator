@@ -1,7 +1,7 @@
 package com.surveygen.validator;
 
-import com.surveygen.model.User;
-import com.surveygen.service.UserService;
+import com.surveygen.model.UserLogin;
+import com.surveygen.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -12,31 +12,31 @@ import org.springframework.validation.Validator;
 public class UserValidator implements Validator {
 
     @Autowired
-    private UserService userService;
+    private UserLoginService userService;
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return UserLogin.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        User user = (User) o;
+        UserLogin userLogin = (UserLogin) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
+        if (userLogin.getUsername().length() < 6 || userLogin.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
-        if (userService.findByUsername(user.getUsername()) != null) {
+        if (userService.findByUsername(userLogin.getUsername()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
+        if (userLogin.getPassword().length() < 8 || userLogin.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");
         }
 
-        if (!user.getPasswordConfirm().equals(user.getPassword())) {
+        if (!userLogin.getPasswordConfirm().equals(userLogin.getPassword())) {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
     }

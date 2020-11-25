@@ -10,8 +10,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="users")
-public class User {
-
+public class UserLogin {
     @Id
     @Column(name="id")
     @GeneratedValue
@@ -29,11 +28,11 @@ public class User {
     @Transient
     private String passwordConfirm;
 
-    public User(){
+    public UserLogin(){
 
     }
 
-    public  User(int id, String username, String email, String password){
+    public UserLogin(int id, String username, String email, String password){
         this.id = id;
         this.username = username;
         this.email = email;

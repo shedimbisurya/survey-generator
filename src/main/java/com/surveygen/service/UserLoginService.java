@@ -1,17 +1,18 @@
 package com.surveygen.service;
 
-import com.surveygen.model.User;
+import com.surveygen.model.UserLogin;
+
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-public interface UserService {
+public interface UserLoginService {
 
-    void save(User user);
+    void save(UserLogin userLogin);
 
-    User findByUsername(String username);
+    UserLogin findByUsername(String username);
 
-    User findById(int id);
+    UserLogin findById(int id);
 
     boolean checkPassword(String username, String password);
 
@@ -19,6 +20,6 @@ public interface UserService {
 
     //void createSurvey(int userId);
 
-    String getStatusOfSurvey(int surveyId);
+    //String getStatusOfSurvey(int surveyId);
 
 }

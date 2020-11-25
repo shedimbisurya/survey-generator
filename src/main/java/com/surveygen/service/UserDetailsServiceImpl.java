@@ -1,7 +1,7 @@
 package com.surveygen.service;
 
-import com.surveygen.Repository.UserRepository;
-import com.surveygen.model.User;
+import com.surveygen.Repository.UserLoginRepository;
+import com.surveygen.model.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,15 +15,15 @@ import java.util.HashSet;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserLoginRepository userLoginRepository;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) throw new UsernameNotFoundException(username);
+        UserLogin userLogin = userLoginRepository.findByUsername(username);
+        if (userLogin == null) throw new UsernameNotFoundException(username);
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new HashSet<>());
+        return new org.springframework.security.core.userdetails.User(userLogin.getUsername(), userLogin.getPassword(), new HashSet<>());
     }
 
 

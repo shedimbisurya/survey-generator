@@ -1,8 +1,8 @@
 package com.surveygen.controller;
 
-import com.surveygen.model.User;
+import com.surveygen.model.UserLogin;
 import com.surveygen.service.SecurityService;
-import com.surveygen.service.UserService;
+import com.surveygen.service.UserLoginService;
 import com.surveygen.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 @Controller
-public class UserController {
+public class LoginController {
 
     @Autowired
-    private UserService userService;
+    private UserLoginService userService;
 
     @Autowired
     private SecurityService securityService;
@@ -28,25 +28,21 @@ public class UserController {
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        model.addAttribute("userForm", new User());
+        model.addAttribute("userForm", new UserLogin());
 
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
-        userValidator.validate(userForm, bindingResult);
+    public String registration(@ModelAttribute("userForm") UserLogin userLoginForm, BindingResult bindingResult) {
+        userValidator.validate(userLoginForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";
         }
-        System.out.println("registration successful!        1111");
-        userService.save(userForm);
-        System.out.println("registration successful!        2222");
+
+        userService.save(userLoginForm);
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-
-        System.out.println("registration successful!        3333");
-
         return "redirect:/welcome";
     }
 
@@ -58,9 +54,8 @@ public class UserController {
 
     @PostMapping ("/logincreds")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model){
-        System.out.println("11111111111");
+
         if(userService.checkPassword(username, password)){
-            System.out.println("POST /login hit and User validated!");
             return "welcome";
         }
         else return "login";
@@ -78,18 +73,9 @@ public class UserController {
 
     @PostMapping("/emailConfirmation")
     public String confirmEmail(@RequestParam("email") String email) throws MessagingException, MessagingException, IOException, GeneralSecurityException {
-        System.out.println("1111111");
         userService.emailConfirmation(email);
 
         return "checkYourEmail";
     }
-
-//    @PostMapping("/createSurvey")
-//    public String createSurvey(@RequestParam("id") int id){
-//
-//        userService.createSurvey(id);
-//
-//    }
-
 
 }

@@ -1,11 +1,9 @@
 package com.surveygen.service;
 
 import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.model.Message;
-import com.surveygen.Repository.SurveyRepository;
-import com.surveygen.Repository.UserRepository;
-import com.surveygen.model.Survey;
-import com.surveygen.model.User;
+//import com.surveygen.Repository.SurveyRepository;
+import com.surveygen.Repository.UserLoginRepository;
+import com.surveygen.model.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,31 +14,29 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserLoginServiceImpl implements UserLoginService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserLoginRepository userLoginRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private GmailService gmailService;
-    @Autowired
-    private SurveyRepository surveyRepository;
 
     @Override
-    public User findById(int id){
-        return userRepository.findById(id);
+    public UserLogin findById(int id){
+        return userLoginRepository.findById(id);
     }
 
     @Override
-    public void save(User user){
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+    public void save(UserLogin userLogin){
+        userLogin.setPassword(bCryptPasswordEncoder.encode(userLogin.getPassword()));
+        userLoginRepository.save(userLogin);
     }
 
     @Override
-    public User findByUsername(String username){
-        return userRepository.findByUsername(username);
+    public UserLogin findByUsername(String username){
+        return userLoginRepository.findByUsername(username);
     }
 
     @Override
@@ -48,8 +44,8 @@ public class UserServiceImpl implements UserService {
 
         System.out.println("Reached checkPassword()!");
 
-        User user = findByUsername(username);
-        if(bCryptPasswordEncoder.matches(password, user.getPassword())){
+        UserLogin userLogin = findByUsername(username);
+        if(bCryptPasswordEncoder.matches(password, userLogin.getPassword())){
             System.out.println("Matching passwords!");
             return true;
         }
@@ -71,19 +67,14 @@ public class UserServiceImpl implements UserService {
     }
 
 //    @Override
-//    public void createSurvey(int userId){
-//        surveyRepository.save(survey);
+//    public String getStatusOfSurvey(int surveyId){
+//        Survey survey = surveyRepository.findById(surveyId).get();
+//
+//        int requested = survey.getRequested();
+//        int responses = survey.getResponded();
+//
+//        String status = responses + "out of " + requested + "have submitted their response.";
+//        return status;
 //    }
-
-    @Override
-    public String getStatusOfSurvey(int surveyId){
-        Survey survey = surveyRepository.findById(surveyId);
-
-        int requested = survey.getRequested();
-        int responses = survey.getResponded();
-
-        String status = responses + "out of " + requested + "have submitted their response.";
-        return status;
-    }
 
 }
