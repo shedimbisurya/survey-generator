@@ -45,7 +45,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         System.out.println("Reached checkPassword()!");
 
         UserLogin userLogin = findByUsername(username);
-        if(bCryptPasswordEncoder.matches(password, userLogin.getPassword())){
+        if(userLogin != null && bCryptPasswordEncoder.matches(password, userLogin.getPassword())){
             System.out.println("Matching passwords!");
             return true;
         }
