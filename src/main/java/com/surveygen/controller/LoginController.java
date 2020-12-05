@@ -54,7 +54,7 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping ("/logincreds")
+    @GetMapping ("/logincreds")
     public ResponseEntity<String> login(@RequestParam("username") String username, @RequestParam("password") String password, Model model){
 
         if(userService.checkPassword(username, password)){
