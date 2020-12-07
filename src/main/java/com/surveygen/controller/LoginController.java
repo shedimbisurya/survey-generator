@@ -18,7 +18,7 @@ import java.security.GeneralSecurityException;
 public class LoginController {
 
     @Autowired
-    private UserLoginService userService;
+    private UserLoginService userLoginService;
 
     @Autowired
     private SecurityService securityService;
@@ -41,7 +41,7 @@ public class LoginController {
             return "registration";
         }
 
-        userService.save(userLoginForm);
+        userLoginService.save(userLoginForm);
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
         return "redirect:/welcome";
     }
@@ -55,7 +55,7 @@ public class LoginController {
     @PostMapping ("/logincreds")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model){
 
-        if(userService.checkPassword(username, password)){
+        if(userLoginService.checkPassword(username, password)){
             return "welcome";
         }
         else return "login";
@@ -73,7 +73,7 @@ public class LoginController {
 
     @PostMapping("/emailConfirmation")
     public String confirmEmail(@RequestParam("email") String email) throws MessagingException, MessagingException, IOException, GeneralSecurityException {
-        userService.emailConfirmation(email);
+        userLoginService.emailConfirmation(email);
 
         return "checkYourEmail";
     }

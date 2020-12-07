@@ -109,10 +109,18 @@ public class GmailService {
             throws MessagingException, IOException {
         Message message = createMessageWithEmail(emailContent);
         message = service.users().messages().send("me", message).execute();
-        System.out.println("777777777");
         System.out.println("Message id: " + message.getId());
         System.out.println(message.toPrettyString());
         return message;
     }
+
+    public Message sendMail(String sender, String receiver, String subject, String body) throws MessagingException, IOException, GeneralSecurityException {
+
+        MimeMessage mimeMessage =  createEmail(receiver, sender, subject, body);
+        Gmail gmail = instantiateGmailService();
+        return sendMessage(gmail, "onlinesurveygen@gmail.com", mimeMessage);
+
+    }
+
 
 }

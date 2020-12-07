@@ -85,8 +85,8 @@
 
 <!--		<dependency>-->
 <!--			<groupId>org.mongodb</groupId>-->
-<!--			<artifactId>mongo-java-driver</artifactId>-->
-<!--			<version>2.12.3</version>-->
+<!--			<artifactId>mongodb-driver</artifactId>-->
+<!--			<version>3.4.3</version>-->
 <!--		</dependency>-->
 
 		<dependency>
@@ -122,6 +122,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<jvmArguments>
+						-Djdk.tls.client.protocols=TLSv1.2
+					</jvmArguments>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
