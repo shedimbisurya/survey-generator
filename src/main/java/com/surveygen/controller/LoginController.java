@@ -5,6 +5,8 @@ import com.surveygen.service.SecurityService;
 import com.surveygen.service.UserLoginService;
 import com.surveygen.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -34,16 +36,16 @@ public class LoginController {
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") UserLogin userLoginForm, BindingResult bindingResult) {
+    public ResponseEntity<String> registration(@ModelAttribute("userForm") UserLogin userLoginForm, BindingResult bindingResult) {
         userValidator.validate(userLoginForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "registration";
+            return new ResponseEntity<String>("Failed", HttpStatus.OK);
         }
 
         userLoginService.save(userLoginForm);
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-        return "redirect:/welcome";
+        return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
 
     @GetMapping("/loginpage")
@@ -52,13 +54,13 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping ("/logincreds")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model){
+    @GetMapping ("/logincreds")
+    public ResponseEntity<String> login(@RequestParam("username") String username, @RequestParam("password") String password, Model model){
 
         if(userLoginService.checkPassword(username, password)){
-            return "welcome";
+            return new ResponseEntity<String>("Success", HttpStatus.OK);
         }
-        else return "login";
+        return new ResponseEntity<String>("Failed", HttpStatus.OK);
     }
 
     @GetMapping("/welcome")
