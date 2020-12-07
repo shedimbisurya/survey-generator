@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.AllArgsConstructor;
 import java.util.List;
 
-@AllArgsConstructor
 @Data
 @Document(collection = "users")
 public class User {
@@ -22,5 +21,21 @@ public class User {
 
     @DBRef
     private List<Survey> surveysList;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 }

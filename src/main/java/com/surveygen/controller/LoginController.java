@@ -3,6 +3,7 @@ package com.surveygen.controller;
 import com.surveygen.model.UserLogin;
 import com.surveygen.service.SecurityService;
 import com.surveygen.service.UserLoginService;
+import com.surveygen.service.UserService;
 import com.surveygen.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,9 @@ public class LoginController {
     @Autowired
     private UserValidator userValidator;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new UserLogin());
@@ -44,6 +48,9 @@ public class LoginController {
         }
 
         userLoginService.save(userLoginForm);
+
+        userService.addUser(userLoginForm);     // adds user to mongo database as well
+
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
         return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
