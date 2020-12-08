@@ -26,11 +26,9 @@ public class SurveyController {
     @PostMapping("/survey")
     public @ResponseBody Survey createSurvey(@RequestBody Survey survey, HttpSession session){
         return surveyService.create(survey);  // inserts the survey in mongo db
-
         //Add this survey to user collection(only refs will be stored)
         //User user_from_session = session.getAttribute("");
         //user_from_session.addSurveytoSurveysList(survey1);
-
     }
 
     // this method is not completed
@@ -41,13 +39,8 @@ public class SurveyController {
     }
 
     @GetMapping("/survey")
-    public @ResponseBody List<Survey> getSurveyDetails(@RequestParam("id") int responses) {
-        System.out.println( surveyRepository.findAll());
-        System.out.println("over over over.............................");
-
-        List<Survey> temp = surveyRepository.findAll();
-
-        return temp;
+    public @ResponseBody Survey getSurveyDetails() {
+        return surveyService.getSurvey();
     }
 
 

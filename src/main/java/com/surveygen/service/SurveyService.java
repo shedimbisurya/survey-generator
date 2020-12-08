@@ -48,4 +48,16 @@ public class SurveyService {
 
     }
 
+    public Survey getSurvey(){
+
+        User user = userRepository.findByEmail("sshedimb@uci.edu");
+
+        Survey survey = user.getSurveysList().get(user.getSurveysList().size()-1);
+
+        System.out.println(survey);
+
+        return survey;
+    }
+
+
 }
