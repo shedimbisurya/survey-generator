@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -22,10 +23,14 @@ public class SurveyController {
     @Autowired
     SurveyRepository surveyRepository;
 
-
     @PostMapping("/survey")
-    public @ResponseBody Survey createSurvey(@RequestBody Survey survey){
-        return surveyService.create(survey);
+    public @ResponseBody Survey createSurvey(@RequestBody Survey survey, HttpSession session){
+        return surveyService.create(survey);  // inserts the survey in mongo db
+
+        //Add this survey to user collection(only refs will be stored)
+        //User user_from_session = session.getAttribute("");
+        //user_from_session.addSurveytoSurveysList(survey1);
+
     }
 
     // this method is not completed
@@ -44,6 +49,7 @@ public class SurveyController {
 
         return temp;
     }
+
 
 
 

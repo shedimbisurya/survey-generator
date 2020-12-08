@@ -22,6 +22,16 @@ public class User {
     @DBRef
     private List<Survey> surveysList;
 
+    public List<Survey> getSurveysList() {
+        return surveysList;
+    }
+
+    public void addSurveytoSurveysList(Survey survey){
+        System.out.println("sdkfjlhaskljdfhaskdjfh;awdlfsF  WF  GWG     ");
+        surveysList.add(survey);
+        System.out.println("ADDED");
+    }
+
     public String getName() {
         return name;
     }

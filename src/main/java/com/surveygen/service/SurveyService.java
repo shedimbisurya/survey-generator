@@ -2,6 +2,7 @@ package com.surveygen.service;
 
 import com.google.api.services.gmail.Gmail;
 import com.surveygen.Repository.Mongo.SurveyRepository;
+import com.surveygen.Repository.Mongo.UserRepository;
 import com.surveygen.model.Mongo.Survey;
 import com.surveygen.model.Mongo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,25 @@ public class SurveyService {
     SurveyRepository surveyRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     GmailService gmailService;
 
     public Survey create(Survey survey){
 
         survey.setRequested(0);
         survey.setResponses(0);         //initially the survey isn't shared to anyone
-        //survey.setOwner(user);
+        Survey survey1 = surveyRepository.insert(survey);
 
-        return surveyRepository.insert(survey);
+        User user = userRepository.findByEmail("sshedimb@uci.edu");
+        user.addSurveytoSurveysList(survey1);
+        userRepository.save(user);
+
+        return survey1;
     }
 
     public void share(List<String> contacts) throws GeneralSecurityException, MessagingException, IOException {
-
         String body = new String("<User> has requested you to fill out a survey. ");
 
         for(String contact : contacts){
