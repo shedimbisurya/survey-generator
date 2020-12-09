@@ -17,7 +17,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-@Controller
+@RestController
 public class LoginController {
 
     @Autowired
@@ -39,6 +39,7 @@ public class LoginController {
         return "registration";
     }
 
+    @CrossOrigin(origins="*")
     @PostMapping("/registration")
     public ResponseEntity<String> registration(@ModelAttribute("userForm") UserLogin userLoginForm, BindingResult bindingResult) {
         userValidator.validate(userLoginForm, bindingResult);
@@ -61,6 +62,7 @@ public class LoginController {
         return "login";
     }
 
+    @CrossOrigin(origins="*")
     @GetMapping ("/logincreds")
     public ResponseEntity<String> login(@RequestParam("username") String username, @RequestParam("password") String password, Model model){
 
