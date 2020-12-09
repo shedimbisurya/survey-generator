@@ -20,9 +20,6 @@ public class SurveyController {
     @Autowired
     SurveyService surveyService;
 
-    @Autowired
-    SurveyRepository surveyRepository;
-
     @PostMapping("/survey")
     public @ResponseBody Survey createSurvey(@RequestBody Survey survey, HttpSession session){
         return surveyService.create(survey);  // inserts the survey in mongo db
@@ -42,7 +39,6 @@ public class SurveyController {
     public @ResponseBody Survey getSurveyDetails() {
         return surveyService.getSurvey();
     }
-
 
 
 
