@@ -1,6 +1,7 @@
 package com.surveygen.controller;
 
 import com.surveygen.model.UserLogin;
+import com.surveygen.service.GmailService;
 import com.surveygen.service.SecurityService;
 import com.surveygen.service.UserLoginService;
 import com.surveygen.service.UserService;
@@ -32,6 +33,9 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GmailService gmailService;
+
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new UserLogin());
@@ -41,17 +45,22 @@ public class LoginController {
 
     @CrossOrigin(origins="*")
     @PostMapping("/registration")
-    public ResponseEntity<String> registration(@ModelAttribute("userForm") UserLogin userLoginForm, BindingResult bindingResult) {
+    public ResponseEntity<String> registration(@ModelAttribute("userForm") UserLogin userLoginForm, BindingResult bindingResult) throws GeneralSecurityException, MessagingException, IOException{
         userValidator.validate(userLoginForm, bindingResult);
+
+        System.out.println("1");
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<String>("Failed", HttpStatus.OK);
         }
-
+        System.out.println("21");
         userLoginService.save(userLoginForm);
-
+        System.out.println("3");
         userService.addUser(userLoginForm);     // adds user to mongo database as well
-
+        System.out.println("4");
+        //gmailService.sendMail("onlinesurveygen@gmail.com", userLoginForm.getEmail(), "Welcome to Survey Generator!", "")
+        userLoginService.sendWelcomeMail(userLoginForm.getEmail(), userLoginForm.getUsername());
+        System.out.println("5");
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
         return new ResponseEntity<String>("Success", HttpStatus.OK);
     }

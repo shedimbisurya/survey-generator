@@ -66,6 +66,18 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     }
 
+    @Override
+    public void sendWelcomeMail(String newUserEmail, String username) throws MessagingException, MessagingException, IOException, GeneralSecurityException{
+
+        String body = "Hello " + username + ",\n\n";
+        body = body + "We're glad you're here! Check out our getting started guide to create your first survey. We can't wait for you to get started.";
+
+        gmailService.sendMail("onlinesurveygen@gmail.com",newUserEmail, "Welcome to Survey Generator", body);
+
+    }
+
+
+
 
 //    @Override
 //    public String getStatusOfSurvey(int surveyId){

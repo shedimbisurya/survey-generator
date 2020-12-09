@@ -18,6 +18,8 @@ public interface UserLoginService {
 
     void emailConfirmation (String email) throws MessagingException, MessagingException, IOException, GeneralSecurityException;
 
+    void sendWelcomeMail(String newUserEmail, String username) throws MessagingException, MessagingException, IOException, GeneralSecurityException;
+
     //void createSurvey(int userId);
 
     //String getStatusOfSurvey(int surveyId);
