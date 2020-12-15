@@ -45,6 +45,9 @@ public class SurveyController {
         return new ResponseEntity<Survey>(surveyService.getSurvey(), HttpStatus.OK);
     }
 
-
+    @GetMapping("/getSurvey")
+    public @ResponseBody Survey getSurveyFromId(@RequestParam String id){
+        return surveyService.getSurveyFromId(id);
+    }
 
 }

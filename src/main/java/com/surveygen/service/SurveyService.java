@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SurveyService {
@@ -59,5 +60,9 @@ public class SurveyService {
         return survey;
     }
 
+    public Survey getSurveyFromId(String id){
+        Optional<Survey> survey = surveyRepository.findById(id);
+        return survey.get();
+    }
 
 }
