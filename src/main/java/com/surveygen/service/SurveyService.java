@@ -27,7 +27,7 @@ public class SurveyService {
     @Autowired
     GmailService gmailService;
 
-    public Survey create(Survey survey){
+    public Survey create(Survey survey) throws MessagingException, MessagingException, IOException, GeneralSecurityException{
 
         survey.setRequested(0);
         survey.setResponses(0);         //initially the survey isn't shared to anyone
@@ -36,6 +36,10 @@ public class SurveyService {
         User user = userRepository.findByEmail("sshedimb@uci.edu");
         user.addSurveytoSurveysList(survey1);
         userRepository.save(user);
+
+        String body = "Hi " + user.getName() + ",\n\nYour survey is hosted at http://localhost:3000/displaySurvey/" + survey1.getId() + "\n\nRegards from Survey Generator";
+
+        gmailService.sendMail("onlinesurveygen@gmail.com",user.getEmail(),"Survey created!", body);
 
         return survey1;
     }

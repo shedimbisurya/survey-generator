@@ -24,7 +24,7 @@ public class SurveyController {
 
     @CrossOrigin(origins="*")
     @PostMapping("/survey")
-    public ResponseEntity<Survey> createSurvey(@RequestBody Survey survey, HttpSession session){
+    public ResponseEntity<Survey> createSurvey(@RequestBody Survey survey, HttpSession session) throws MessagingException, MessagingException, IOException, GeneralSecurityException{
         return new ResponseEntity<Survey>(surveyService.create(survey), HttpStatus.OK);
         // inserts the survey in mongo db
         //Add this survey to user collection(only refs will be stored)
@@ -45,9 +45,10 @@ public class SurveyController {
         return new ResponseEntity<Survey>(surveyService.getSurvey(), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/getSurvey")
-    public @ResponseBody Survey getSurveyFromId(@RequestParam String id){
-        return surveyService.getSurveyFromId(id);
+    public ResponseEntity<Survey> getSurveyFromId(@RequestParam String id){
+        return new ResponseEntity<Survey>(surveyService.getSurveyFromId(id), HttpStatus.OK);
     }
 
 }

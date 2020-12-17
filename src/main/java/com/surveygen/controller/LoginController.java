@@ -48,19 +48,16 @@ public class LoginController {
     public ResponseEntity<String> registration(@ModelAttribute("userForm") UserLogin userLoginForm, BindingResult bindingResult) throws GeneralSecurityException, MessagingException, IOException{
         userValidator.validate(userLoginForm, bindingResult);
 
-        System.out.println("1");
-
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<String>("Failed", HttpStatus.OK);
         }
-        System.out.println("21");
+
         userLoginService.save(userLoginForm);
-        System.out.println("3");
+
         userService.addUser(userLoginForm);     // adds user to mongo database as well
-        System.out.println("4");
+
         //gmailService.sendMail("onlinesurveygen@gmail.com", userLoginForm.getEmail(), "Welcome to Survey Generator!", "")
         userLoginService.sendWelcomeMail(userLoginForm.getEmail(), userLoginForm.getUsername());
-        System.out.println("5");
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
         return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
